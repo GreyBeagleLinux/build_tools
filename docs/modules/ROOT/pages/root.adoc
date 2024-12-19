@@ -9,6 +9,10 @@ NOTE: Many commands run by the _root_generator_ are executed using _sudo_.
   This is necessary for some commands, like _debootstrap_, and required
   for the follow-up configuration to avoid access right issues.
 
+NOTE: _debootstrap_ using variant _fakechroot_ has quite some problems when
+  cross-building root filesystems. At the moment, generating a root filesystem
+  without _sudo_ is not supported.
+
 The _root_generator_ is responsible for generating and configuring a tarball
 of the root filesystem. The _root_generator_ supports the following options:
 
@@ -40,8 +44,6 @@ base:: Parent configuration file. If specified, the values from the parent
   file will be used if not otherwise specified in the current file.
 arch (default: arm64):: The CPU architecture of the target hardware.
   The supported values are arm64, amd64 and armhf.
-use_fakeroot (default: False):: Use fakeroot in the generator tools where possible,
-  instead of sudo and chroot. This may cause issues for edge-cases.
 apt_repos (default: None):: A list of apt repositories to download the required Debian packages.
   In addition, an armored public key file or URL can be given as _key_, and a unarmored gpg file
   can be given as _gpg_, to authenticate the package sources. If no key is given, the repositories

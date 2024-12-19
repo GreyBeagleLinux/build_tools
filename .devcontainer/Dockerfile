@@ -15,7 +15,7 @@ RUN apt update
 RUN apt upgrade
 
 # Install sudo, to allow privileged command execution.
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install -y sudo
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt install -y sudo locales
 
 # Delete user with given UID if it exists
 RUN userdel $(id -nu $HOST_USER) || true
@@ -29,6 +29,11 @@ RUN groupadd --gid $HOST_GROUP $CONTAINER_USER \
     && mkdir -p /etc/sudoers.d \
     && echo $CONTAINER_USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$CONTAINER_USER \
     && chmod 0440 /etc/sudoers.d/$CONTAINER_USER
+
+# Setup locale
+RUN export LC_ALL=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8 && \
+    locale-gen en_US.UTF-8
 
 # Create mount point for stand-alone usage
 RUN mkdir -p /workspace
