@@ -5,8 +5,7 @@
 rm -f .venv
 ln -sf /build/venv .venv
 
-UID=$(id -u)
-if [ $UID -ne 0 ]; then
+if [ $(id -u) -ne 0 ]; then
     # Change ownership of the venv and the installed tool
     # to allow installation of further Python packages and
     # live hacking of the tools.
